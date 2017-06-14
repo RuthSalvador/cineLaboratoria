@@ -10,6 +10,7 @@ const db = levelup('./data', {valueEncoding: 'json'});
 //aregando funcionalidades basicas, libreria bodyParser transforma require de tipo post a objeto json
 app.use(bodyParser.urlencoded({ extended:true}));
 app.use(bodyParser.json());
+app.use(express.static('public'));
 
 //ruta de trabajo
 const router = express.Router();
@@ -26,7 +27,7 @@ router.post('/movies',(req,res) => {
       return res.json({message: "Hubo un error a guardar los datos"})
     }
   });
-   res.json({message: "La película se grabó con éxito"});
+  res.json({message: "La película se grabó con éxito"});
 });
 
 router.get('/movies',(req,res) => {
@@ -41,8 +42,8 @@ router.get('/movies',(req,res) => {
 router.get('/movies/:id', (req,res) => {
   if (req.params.id) {
     db.get(req.params.id,(err,movie) => {
-      if(err) return res.json({message: "Hubo un error al obtener"});
-        res.json(movie);
+      if(err) return res.json({message: "Hubo un error al obtener el registro"});
+      res.json(movie);
     });
   }
 });
